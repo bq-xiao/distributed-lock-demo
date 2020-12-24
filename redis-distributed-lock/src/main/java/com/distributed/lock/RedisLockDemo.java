@@ -7,9 +7,6 @@ import org.redisson.config.Config;
 
 import java.io.IOException;
 
-/**
- * Hello world!
- */
 public class RedisLockDemo {
     public static void main(String[] args) throws IOException {
         Config config = new Config();
@@ -17,8 +14,10 @@ public class RedisLockDemo {
         config.useSingleServer().setPassword("123456");
         RedissonClient redissonClient = Redisson.create(config);
         RLock rLock = redissonClient.getLock("lock");
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
+            //开启自线程
             new Thread(() -> {
+                //加锁
                 rLock.lock();
                 System.out.println(Thread.currentThread().getName() + " 获取锁");
                 try {
@@ -26,13 +25,10 @@ public class RedisLockDemo {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
+                    //释放锁
                     rLock.unlock();
                 }
             }).start();
         }
-        //等待子线程运行结束
-        System.in.read();
-        //关闭redis客户端
-        redissonClient.shutdown();
     }
 }
