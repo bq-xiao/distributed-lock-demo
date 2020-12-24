@@ -21,3 +21,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.idea
+distributed-lock-demo.iml
+/redis-distributed-lock/redis-distributed-lock.iml
+/zookeeper-distributed-lock/zookeeper-distributed-lock.iml
